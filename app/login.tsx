@@ -127,6 +127,12 @@ export default function LoginPage() {
   };
 
   const handleGuestTrial = async () => {
+    if (Platform.OS !== 'web') {
+      await SecureStore.setItemAsync(GUEST_SESSION_KEY, 'guest-prototype');
+    } else {
+      localStorage.setItem(GUEST_SESSION_KEY, 'guest-prototype');
+    }
+    emitGuestSessionCreated();
     router.replace('/(tabs)');
     return;
 

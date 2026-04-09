@@ -67,34 +67,7 @@ export default function RootLayout() {
       setSessionState('unauthenticated');
       return;
     }
-
-    const { data } = await supabase
-      .from('guest_sessions')
-      .select('id, expires_at')
-      .eq('id', guestId)
-      .maybeSingle();
-
-    if (!data) {
-      setSessionState('unauthenticated');
-      return;
-    }
-
-    const expires = new Date(data.expires_at);
-    const now = new Date();
-    if (expires < now) {
-      setSessionState('unauthenticated');
-      return;
-    }
-
-    const msLeft = expires.getTime() - now.getTime();
-    const remaining = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
-    setDaysLeft(remaining);
     setSessionState('guest');
-
-    const dismissed = await getStorageItem(TRIAL_BANNER_DISMISSED_KEY);
-    if (dismissed === 'true') {
-      setBannerDismissed(true);
-    }
   };
 
   const checkSession = async () => {
