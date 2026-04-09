@@ -127,6 +127,9 @@ export default function LoginPage() {
   };
 
   const handleGuestTrial = async () => {
+    router.replace('/(tabs)');
+    return;
+
     setGuestLoading(true);
     setError(null);
 
